@@ -1,24 +1,30 @@
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
-import SignIn from '../components/signin/signin';
+import React, { useEffect, useState } from 'react';
+import Router from 'next/router';
+const myPage = () => {
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const [loaded, setLoaded] = useState(false);
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	useEffect(() => {
+		const { pathname } = Router;
+		// conditional redirect
+		if (pathname == '/') {
+			// with router.push the page may be added to history
+			// the browser on history back will  go back to this page and then forward again to the redirected page
+			// you can prevent this behaviour using location.replace
+			Router.push('/dashboard/films');
+			//location.replace("/hello-nextjs")
+		} else {
+			setLoaded(true);
+		}
+	}, []);
 
-const Home: NextPage = () => {
+	if (!loaded) {
+		return <div></div>; //show nothing or a loader
+	}
 	return (
-		<div className='center'>
-			<SignIn />
-			<style jsx>
-				{`
-					.center {
-						height: 100vh;
-						display: flex;
-						justify-content: center;
-						align-items: center;
-					}
-				`}
-			</style>
-		</div>
+		<p>
+			You will see this page only if pathname !== / , <br />
+		</p>
 	);
 };
-
-export default Home;
+export default myPage;
