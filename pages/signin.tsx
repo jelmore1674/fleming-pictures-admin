@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Image from 'next/image';
+import { supabase } from '../utils/supabaseClient';
 function Copyright(props: any) {
 	return (
 		<Typography
@@ -40,9 +41,15 @@ const theme = createTheme({
 });
 
 export default function SignIn() {
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
+		const { user, session, error } = await supabase.auth.signIn({
+			email: data.get('email') as string,
+			password: data.get('password') as string,
+		});
+		console.log(user);
+		console.log(session);
 		// eslint-disable-next-line no-console
 		console.log({
 			email: data.get('email'),

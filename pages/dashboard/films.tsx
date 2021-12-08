@@ -16,47 +16,49 @@ import NextLink from 'next/link';
 import { Checkbox } from '@mui/material';
 import Head from 'next/head';
 
+import { GetServerSideProps } from 'next';
+import { supabase } from '../../utils/supabaseClient';
+
 export interface Film {
+	id: number;
+	title: string;
+	featuredImg: string;
+	cast: string;
+	posterImg: string;
+	trailer: string;
+	sypnosis: string;
+	releaseYear: number;
+	isFeatured: boolean;
+}
+
+type FilmFromDB = {
 	id: number;
 	title: string;
 	featuredImg: string;
 	posterImg: string;
 	trailer: string;
 	sypnosis: string;
+	releaseYear: number;
 	isFeatured: boolean;
+};
+
+interface FilmsProps {
+	films: Film[];
 }
 
-// Generate initial Films
-const initialFilms: Film[] = [
-	{
-		id: 1,
-		title: 'The Chronus',
-		featuredImg: '/assets/images/chronus1920x1080.png',
-		posterImg: '/assets/images/chronos2x3.png',
-		trailer: '/assets/clips/trailer.mp4',
-		sypnosis:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-		isFeatured: true,
-	},
-	{
-		id: 2,
-		title: 'Another Film',
-		featuredImg: '/assets/images/featured2.png',
-		posterImg: '/assets/images/poster2.png',
-		trailer: 'https://www.youtube.com/watch?v=GOysW6WYWoE',
-		sypnosis:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-		isFeatured: false,
-	},
-];
+const initialFilms: Film[] = [];
 
 // Prevent event default behavior
 function preventDefault(event: React.MouseEvent) {
 	event.preventDefault();
 }
 
-export default function FilmTable() {
+export default function FilmTable({ films }: FilmsProps) {
 	const [featuredFilms, setFeaturedFilms] = React.useState(initialFilms);
+
+	React.useEffect(() => {
+		setFeaturedFilms(films);
+	}, [films]);
 
 	const StyledTableRow = styled(TableRow)(({ theme }) => ({
 		'&:nth-of-type(even)': {
@@ -68,18 +70,15 @@ export default function FilmTable() {
 		},
 	}));
 
-	function handleChangeFeatured(film: Film) {
-		if (film.isFeatured) {
-			film.isFeatured = false;
-		} else {
-			film.isFeatured = true;
-		}
-		console.log(film);
+	async function handleChangeFeatured(film: Film) {
+		await supabase
+			.from<Film>('films')
+			.update({ isFeatured: !film.isFeatured })
+			.eq('id', film.id);
 	}
 
-	const handleDeleteFilm = (film: Film) => {
-		const newFilms = featuredFilms.filter((f) => f.id !== film.id);
-		setFeaturedFilms(newFilms);
+	const handleDeleteFilm = async (film: Film) => {
+		await supabase.from<Film>('films').delete().eq('id', film.id);
 	};
 
 	const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -118,72 +117,81 @@ export default function FilmTable() {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{featuredFilms.map((row) => (
-						<>
-							<StyledTableRow key={row.id}>
-								<TableCell>
-									<Image
-										alt={row.title}
-										src={row.featuredImg}
-										width='1920'
-										height='1080'
-										layout='responsive'
-									/>
-								</TableCell>
-								<TableCell>{row.title}</TableCell>
-								<Tooltip title={row.sypnosis}>
+					{featuredFilms &&
+						featuredFilms.length &&
+						featuredFilms.map((row) => (
+							<>
+								<StyledTableRow key={row.id}>
 									<TableCell>
-										{truncateString(row.sypnosis, 50)}
+										<Image
+											alt={row.title}
+											src={`/assets/images/${row.featuredImg}`}
+											width='1920'
+											height='1080'
+											layout='responsive'
+										/>
 									</TableCell>
-								</Tooltip>
-								<TableCell>
-									{row.isFeatured ? (
-										<Checkbox
-											defaultChecked
-											onChange={() =>
-												handleChangeFeatured(row)
-											}
-										/>
-									) : (
-										<Checkbox
-											onChange={() =>
-												handleChangeFeatured(row)
-											}
-										/>
-									)}
-								</TableCell>
-								<TableCell>
-									<NextLink href={`/films/edit/${row.id}`}>
+									<TableCell>{row.title}</TableCell>
+									<Tooltip title={row.sypnosis}>
+										<TableCell>
+											{truncateString(row.sypnosis, 50)}
+										</TableCell>
+									</Tooltip>
+									<TableCell>
+										{row.isFeatured ? (
+											<Checkbox
+												defaultChecked
+												onChange={() =>
+													handleChangeFeatured(row)
+												}
+											/>
+										) : (
+											<Checkbox
+												onChange={() =>
+													handleChangeFeatured(row)
+												}
+											/>
+										)}
+									</TableCell>
+									<TableCell>
+										<NextLink
+											href={`/films/edit/${row.id}`}>
+											<IconButton
+												aria-label='edit'
+												color='success'>
+												<ModeEditIcon />
+											</IconButton>
+										</NextLink>
+									</TableCell>
+									<TableCell>
 										<IconButton
-											aria-label='edit'
-											color='success'>
-											<ModeEditIcon />
+											aria-label='delete'
+											color='error'>
+											<DeleteIcon
+												onClick={() =>
+													handleDeleteFilm(row)
+												}
+											/>
 										</IconButton>
-									</NextLink>
-								</TableCell>
-								<TableCell>
-									<IconButton
-										aria-label='delete'
-										color='error'>
-										<DeleteIcon
-											onClick={() =>
-												handleDeleteFilm(row)
-											}
-										/>
-									</IconButton>
-								</TableCell>
-							</StyledTableRow>
-						</>
-					))}
+									</TableCell>
+								</StyledTableRow>
+							</>
+						))}
 				</TableBody>
 			</Table>
-			<Link
-				color='primary'
-				href='#'
-				onClick={preventDefault}
-				sx={{ mt: 3 }}>
-				See more orders
-			</Link>
 		</React.Fragment>
 	);
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	const { data: films } = await supabase
+		.from<Film>('films')
+		.select('*')
+		.order('id', { ascending: true });
+
+	return {
+		props: {
+			films,
+		},
+	};
+};
