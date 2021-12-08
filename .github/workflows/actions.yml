@@ -12,9 +12,11 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: 16.x
+            - name: Add yarn
+              run: npm i -g yarn
             - name: Install dependencies
-              run: npm ci
+              run: yarn
             - name: Build
-              run: npm run build
+              run: yarn build
             - name: start
-              run: npm run start
+              run: yarn start
