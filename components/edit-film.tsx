@@ -1,14 +1,8 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import * as React from 'react';
 import { EditFilmContext } from '../context/edit-film.context';
 import { Film } from '../pages/dashboard/films';
-import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import Image from 'next/image';
 
 const style = {
 	position: 'absolute' as 'absolute',
