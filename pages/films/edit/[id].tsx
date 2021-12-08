@@ -17,10 +17,6 @@ const Input = styled('input')({
 	display: 'none',
 });
 
-interface Props {
-	film: Film;
-}
-
 const EditPage = ({ film }: any) => {
 	const [video, setVideo] = React.useState('film.trailer');
 	const [featuredUpload, setFeaturedUpload] = React.useState<any>('');
