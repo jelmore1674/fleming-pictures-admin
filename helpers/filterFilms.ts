@@ -36,15 +36,19 @@ export const InitialFilms: Film[] = [
 	},
 ];
 
-export async function getFilmById(id: any): Promise<Film | PostgrestError> {
+export async function getFilmById(
+	id: any
+): Promise<Film | PostgrestError | null> {
 	const { data: film, error } = await supabase
 		.from('films')
 		.select('*')
 		.eq('id', id);
 	if (error) {
 		return error;
+	} else if (film) {
+		return film[0];
 	}
-	return film[0];
+	return null;
 }
 
 export async function getAllFilmIds(): Promise<any> {

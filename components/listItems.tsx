@@ -1,16 +1,14 @@
-import * as React from 'react';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
+import TvIcon from '@mui/icons-material/Tv';
+import WebIcon from '@mui/icons-material/Web';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import GroupWorkIcon from '@mui/icons-material/GroupWork';
-import TvIcon from '@mui/icons-material/Tv';
 import NextLink from 'next/link';
-import WebIcon from '@mui/icons-material/Web';
+import * as React from 'react';
 
 export const mainListItems = (
 	<div>

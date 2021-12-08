@@ -1,22 +1,20 @@
-import * as React from 'react';
-import Link from '@mui/material/Link';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { Checkbox } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { styled } from '@mui/material/styles';
-import Title from '../../components/title';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Image from 'next/image';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Tooltip from '@mui/material/Tooltip';
-import NextLink from 'next/link';
-import { Checkbox } from '@mui/material';
-import Head from 'next/head';
-
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import NextLink from 'next/link';
+import * as React from 'react';
+import Title from '../../components/title';
 import { supabase } from '../../utils/supabaseClient';
 
 export interface Film {
@@ -31,17 +29,6 @@ export interface Film {
 	isFeatured: boolean;
 }
 
-type FilmFromDB = {
-	id: number;
-	title: string;
-	featuredImg: string;
-	posterImg: string;
-	trailer: string;
-	sypnosis: string;
-	releaseYear: number;
-	isFeatured: boolean;
-};
-
 interface FilmsProps {
 	films: Film[];
 }
@@ -49,9 +36,6 @@ interface FilmsProps {
 const initialFilms: Film[] = [];
 
 // Prevent event default behavior
-function preventDefault(event: React.MouseEvent) {
-	event.preventDefault();
-}
 
 export default function FilmTable({ films }: FilmsProps) {
 	const [featuredFilms, setFeaturedFilms] = React.useState(initialFilms);

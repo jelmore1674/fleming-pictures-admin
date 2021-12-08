@@ -1,14 +1,13 @@
-import { useRouter } from 'next/router';
-import { getFilmById } from '../../../helpers/filterFilms';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Image from 'next/image';
 import Button from '@mui/material/Button';
-import { NextPage } from 'next';
 import { styled } from '@mui/material/styles';
-import ReactPlayer from 'react-player';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { NextPage } from 'next';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
-import { Film } from '../../dashboard/films';
+import ReactPlayer from 'react-player';
+import { getFilmById } from '../../../helpers/filterFilms';
 
 const Input = styled('input')({
 	display: 'none',
@@ -17,7 +16,7 @@ const Input = styled('input')({
 const EditPage: NextPage = () => {
 	const router = useRouter();
 	const id = router.query.id;
-	const film: Film = getFilmById(id);
+	const film: any = getFilmById(id);
 	const [video, setVideo] = React.useState('film.trailer');
 
 	React.useEffect(() => {

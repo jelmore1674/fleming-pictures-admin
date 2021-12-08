@@ -24,7 +24,6 @@ interface Props {
 export default function EditModal({ film, openId }: Props) {
 	const { openEditModal, setOpenEditModal }: any =
 		React.useContext(EditFilmContext);
-	const [show, setShow] = React.useState(false);
 	const handleClose = () => setOpenEditModal(false);
 
 	return (

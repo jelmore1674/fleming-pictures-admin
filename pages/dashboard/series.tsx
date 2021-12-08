@@ -1,20 +1,19 @@
-import * as React from 'react';
-import Link from '@mui/material/Link';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { Checkbox } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { styled } from '@mui/material/styles';
-import Title from '../../components/title';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Image from 'next/image';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Tooltip from '@mui/material/Tooltip';
-import NextLink from 'next/link';
-import { Checkbox } from '@mui/material';
 import Head from 'next/head';
+import Image from 'next/image';
+import NextLink from 'next/link';
+import * as React from 'react';
+import Title from '../../components/title';
 
 export interface Series {
 	id: number;
