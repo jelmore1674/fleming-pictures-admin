@@ -1,17 +1,14 @@
-import Router from 'next/router';
-import { getAllFilmIds, getFilmById } from '../../../helpers/filterFilms';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Image from 'next/image';
 import Button from '@mui/material/Button';
-import { GetStaticProps, NextPage } from 'next';
 import { styled } from '@mui/material/styles';
-import ReactPlayer from 'react-player';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { GetStaticProps } from 'next';
+import Image from 'next/image';
+import Router from 'next/router';
 import React from 'react';
-import { Film } from '../../dashboard/films';
-import { Params } from 'next/dist/server/router';
+import ReactPlayer from 'react-player';
+import { getAllFilmIds, getFilmById } from '../../../helpers/filterFilms';
 import { supabase } from '../../../utils/supabaseClient';
-import { stringify } from 'querystring';
 
 const Input = styled('input')({
 	display: 'none',
@@ -83,12 +80,12 @@ const EditPage = ({ film }: any) => {
 			throw uploadError;
 		}
 
-		const { publicURL, error } = supabase.storage
+		const { publicURL } = supabase.storage
 			.from('test')
 			.getPublicUrl(filePath);
 		console.log(publicURL);
 
-		let { error: updateError } = await supabase
+		await supabase
 			.from('films')
 			.update({
 				featuredImg: publicURL,
