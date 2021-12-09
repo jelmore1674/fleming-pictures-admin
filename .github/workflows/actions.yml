@@ -6,7 +6,7 @@ on:
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         environment:
             name: BUILD
             url: http://155.138.206.127:3000
@@ -26,16 +26,5 @@ jobs:
               run: npm ci
             - name: Build
               run: npm run build
-
-    deploy:
-        runs-on: self-hosted
-        environment:
-            name: DEPLOY
-            url: http://155.138.206.127:3000/
-        needs: [build]
-        steps:
-            - uses: actions/setup-node@v1
-              with:
-                  node-version: 16.x
             - name: start
               run: npm run start
