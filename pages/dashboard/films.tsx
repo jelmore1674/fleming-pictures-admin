@@ -109,7 +109,7 @@ export default function FilmTable({ films }: FilmsProps) {
 									<TableCell>
 										<Image
 											alt={row.title}
-											src={`/assets/images/${row.featuredImg}`}
+											src={`${row.featuredImg}`}
 											width='1920'
 											height='1080'
 											layout='responsive'
