@@ -20,8 +20,8 @@ jobs:
             - name: Create env file
               run: |
                   echo "export BUILD_ENV=true" >> .env.local
-                  echo "NEXT_PUBLIC_SUPABASE_URL: ${{secrets.NEXT_PUBLIC_SUPABASE_URL}}" >> .env.local
-                  echo "NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY}}" >> .env.local
+                  echo "NEXT_PUBLIC_SUPABASE_URL=${{secrets.NEXT_PUBLIC_SUPABASE_URL}}" >> .env.local
+                  echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY}}" >> .env.local
             - name: Install dependencies
               run: npm ci
             - name: Build
