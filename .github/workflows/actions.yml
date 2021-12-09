@@ -22,7 +22,9 @@ jobs:
 
     deploy:
         runs-on: self-hosted
-        environment: BUILD
+        environment:
+            name: DEPLOY
+            url: http://155.138.206.127:3000/
         needs: [build]
         steps:
             - uses: actions/setup-node@v1
