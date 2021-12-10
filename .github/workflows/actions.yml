@@ -15,6 +15,8 @@ jobs:
             - uses: actions/setup-node@v1
               with:
                   node-version: 16.x
+            - name: add pm2
+              run: npm install pm2 -g
             - name: stop pm2
               run: pm2 stop FlemingAdmin
             - name: Create env file
