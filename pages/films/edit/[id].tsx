@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Router from 'next/router';
 import React from 'react';
 import ReactPlayer from 'react-player';
-import { getAllFilmIds, getFilmById } from '../../../helpers/filterFilms';
+import { getFilmById } from '../../../helpers/filterFilms';
 import { supabase } from '../../../utils/supabaseClient';
 
 const Input = styled('input')({
@@ -224,7 +224,7 @@ const EditPage = ({ film }: any) => {
 	);
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }: any) => {
+export const getServerSideProps: GetStaticProps = async ({ params }: any) => {
 	const film = await getFilmById(parseInt(params.id));
 
 	return {
@@ -233,19 +233,5 @@ export const getStaticProps: GetStaticProps = async ({ params }: any) => {
 		},
 	};
 };
-
-export async function getStaticPaths() {
-	const data = await getAllFilmIds();
-	const paths = data.map((film: any) => ({
-		params: {
-			id: `${film.id}`,
-		},
-	}));
-
-	return {
-		paths,
-		fallback: false,
-	};
-}
 
 export default EditPage;
